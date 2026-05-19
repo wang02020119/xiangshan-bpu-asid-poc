@@ -1,0 +1,15 @@
+runs/
+build/
+logs/
+__pycache__/
+*.pyc
+*.elf
+*.dump
+*.vcd
+*.fst
+*.log
+*.o
+*.a
+*.so
+*.dll
+*.exe
