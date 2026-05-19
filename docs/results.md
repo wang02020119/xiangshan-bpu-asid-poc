@@ -9,7 +9,34 @@
 - generated configuration: `TLMinimalConfig`
 - runner type: Cascade vanilla no-trace Verilator runner
 
-## Sanity Check
+## Impact 1: Cross-ASID Covert Channel
+
+Command shape:
+
+```bash
+python3 poc/bpu_covert_channel_poc.py \
+  --runner /absolute/path/to/Vtop_tiny_soc \
+  --message 10 \
+  --threshold 10 \
+  --train-iters 32 \
+  --simlen 60000 \
+  --timeout 420
+```
+
+Observed result:
+
+```text
+RESULT idx=0 sent=1 votes=1 decoded=1
+RESULT idx=1 sent=0 votes=0 decoded=0
+DECODED=10
+MATCH=1
+```
+
+Interpretation: ASID A encodes a bit by training or skipping training of a taken
+branch.  ASID B decodes the bit by timing a colliding not-taken branch against
+an untrained control branch.
+
+## Impact 2: Secret-Dependent Branch Sanity Check
 
 Command shape:
 

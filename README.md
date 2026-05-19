@@ -26,6 +26,7 @@ The byte-level result in `docs/results.md` was reproduced on:
 ## Repository Contents
 
 - `poc/bpu_branch_leak_poc.py`: self-contained PoC generator/runner.
+- `poc/bpu_covert_channel_poc.py`: cross-ASID BPU covert-channel PoC.
 - `docs/results.md`: verified reproduction output.
 - `docs/technical-notes.md`: impact, assumptions, and limitations.
 
@@ -47,7 +48,30 @@ You need:
 The script can run directly on the host, or inside an existing Docker-based
 Cascade mount setup.
 
-## Reproduce
+## Reproduce Impact 1: Covert Channel
+
+Host runner:
+
+```bash
+python3 poc/bpu_covert_channel_poc.py \
+  --runner /absolute/path/to/Vtop_tiny_soc \
+  --message 10 \
+  --threshold 10 \
+  --train-iters 32 \
+  --simlen 60000 \
+  --timeout 420
+```
+
+Expected successful output:
+
+```text
+RESULT idx=0 sent=1 votes=1 decoded=1
+RESULT idx=1 sent=0 votes=0 decoded=0
+DECODED=10
+MATCH=1
+```
+
+## Reproduce Impact 2: Secret-Dependent Branch Leak
 
 Host runner:
 
@@ -61,7 +85,7 @@ python3 poc/bpu_branch_leak_poc.py \
   --timeout 420
 ```
 
-Equivalent environment-variable form:
+Equivalent environment-variable form for either script:
 
 ```bash
 XS_RUNNER=/absolute/path/to/Vtop_tiny_soc \

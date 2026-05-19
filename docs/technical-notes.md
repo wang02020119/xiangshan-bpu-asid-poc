@@ -27,6 +27,28 @@ information leakage:
 - byte-level leakage works;
 - repeated measurements can be majority-voted with `--repetitions`.
 
+## Exploit Modes
+
+### Impact 1: Covert Channel
+
+`poc/bpu_covert_channel_poc.py` models two cooperating processes on the same
+hart/core:
+
+- ASID A sender encodes `1` by training a taken branch at `VA_PROBE`;
+- ASID A sender encodes `0` by skipping that training window;
+- ASID B receiver times its own not-taken branch at the same virtual address;
+- ASID B compares that timing with an untrained control branch.
+
+This is the most direct and stable primitive: branch predictor state becomes a
+bit channel across ASID separation.
+
+### Impact 2: Secret-Dependent Branch Leakage
+
+`poc/bpu_branch_leak_poc.py` models a non-cooperating victim whose branch
+direction depends on sensitive data.  The attacker decodes victim branch
+direction from the same cross-ASID predictor effect.  The verified PoC leaks
+byte `0xa5` bit-by-bit.
+
 ## Impact
 
 This can leak secret-dependent control-flow decisions across address spaces.
