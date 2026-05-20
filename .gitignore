@@ -1,6 +1,7 @@
 runs/
 build/
 logs/
+docs/vulnerability-report-zh.md
 __pycache__/
 *.pyc
 *.elf
