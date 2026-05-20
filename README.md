@@ -27,6 +27,7 @@ The byte-level result in `docs/results.md` was reproduced on:
 
 - `poc/bpu_branch_leak_poc.py`: self-contained PoC generator/runner.
 - `poc/bpu_covert_channel_poc.py`: cross-ASID BPU covert-channel PoC.
+- `docs/vulnerability-report-zh.md`: Chinese vulnerability report with non-specialist explanation.
 - `docs/results.md`: verified reproduction output.
 - `docs/technical-notes.md`: impact, assumptions, and limitations.
 
